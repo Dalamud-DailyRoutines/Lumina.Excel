@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net10.0</TargetFrameworks>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Configurations>Debug;Release</Configurations>
@@ -15,16 +15,17 @@
         <PackageProjectUrl>https://github.com/NotAdam/Lumina.Excel</PackageProjectUrl>
         <RepositoryUrl>https://github.com/NotAdam/Lumina.Excel</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
+
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
     </PropertyGroup>
 
     <PropertyGroup>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
-    
+
     <PropertyGroup>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>1701;1702;1591;9113</NoWarn>
     </PropertyGroup>
 
@@ -35,13 +36,17 @@
 
     <PropertyGroup>
         <LuminaLocalPath>..\..\..\Lumina\src\Lumina\Lumina.csproj</LuminaLocalPath>
+        <DalamudLibPath>$(appdata)\XIVLauncherCN\addon\Hooks\dev\</DalamudLibPath>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="$(LuminaLocalPath)" Condition="Exists('$(LuminaLocalPath)')" />
-        <PackageReference Include="Lumina" Version="7.1.0" Condition="!Exists('$(LuminaLocalPath)')" />
+        <Reference Include="Lumina" Condition="Exists('$(DalamudLibPath)Lumina.dll')">
+            <HintPath>$(DalamudLibPath)Lumina.dll</HintPath>
+        </Reference>
+        <ProjectReference Include="$(LuminaLocalPath)" Condition="!Exists('$(DalamudLibPath)Lumina.dll') And Exists('$(LuminaLocalPath)')" />
+        <PackageReference Include="Lumina" Version="7.1.0" Condition="!Exists('$(DalamudLibPath)Lumina.dll') And !Exists('$(LuminaLocalPath)')" />
     </ItemGroup>
-    
+
     <ItemGroup>
         <ProjectReference Include="..\Lumina.Excel.Generator\Lumina.Excel.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" IncludeAssets="all" />
         <PackageReference Include="MinVer" Version="6.0.0">
