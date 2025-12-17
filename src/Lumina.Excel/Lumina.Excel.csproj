@@ -33,9 +33,17 @@
         <None Include="../../LICENSE" Pack="true" PackagePath="" />
     </ItemGroup>
 
+    <PropertyGroup>
+        <LuminaLocalPath>..\..\..\Lumina\src\Lumina\Lumina.csproj</LuminaLocalPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="$(LuminaLocalPath)" Condition="Exists('$(LuminaLocalPath)')" />
+        <PackageReference Include="Lumina" Version="7.1.0" Condition="!Exists('$(LuminaLocalPath)')" />
+    </ItemGroup>
+    
     <ItemGroup>
         <ProjectReference Include="..\Lumina.Excel.Generator\Lumina.Excel.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" IncludeAssets="all" />
-        <PackageReference Include="Lumina" Version="7.1.0" />
         <PackageReference Include="MinVer" Version="6.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
